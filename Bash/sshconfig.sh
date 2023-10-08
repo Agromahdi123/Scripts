@@ -15,7 +15,7 @@ echo "Host $alias
     Port $port
     HostKeyAlias $alias
     CheckHostIP no
-    IdentityFile $identity_file
-    ProxyCommand ssh -q -W %h:%p $ip" >> ~/.ssh/config
+    IdentityFile $identity_file" >> ~/.ssh/config
+    
 
 echo "SSH config file updated successfully!"
