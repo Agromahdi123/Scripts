@@ -72,7 +72,7 @@ send_email() {
     local server="$1"
     local log_file="$2"
     local tmp_log_file="/tmp/rsync.log.$$"
-    local email_subject="Rsync log - $(hostname) - Nightly backup of $server"
+    local email_subject="Cron - Rsync log - Nightly backup of $server"
     local email_body="Nightly rsync of $server completed on $(date). See attached log file for details."
     local email_from="rsync-backup@$(hostname)"
     local email_to="$EMAIL_ADDRESS"
@@ -110,5 +110,5 @@ wait
 # Send email with log file for each server
 for conf_file in /etc/rsync-backup/*.conf; do
     source "$conf_file" || { echo "Error: Failed to load configuration file $conf_file"; exit 1; } # Load configuration variables
-    send_email "$SERVER" "$EMAIL_ADDRESS" || { echo "Error: Failed to send email for server $SERVER"; exit 1; }
+    send_email "$SERVER" "root.log" || { echo "Error: Failed to send email for server $SERVER"; exit 1; }
 done
