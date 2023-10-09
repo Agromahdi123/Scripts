@@ -8,7 +8,7 @@
 # user without a password.  Just fire up ssh-keygen and
 # build a public/private key.  Copy the public part to the
 # remote SERVER and stuff it into ~/.ssh/authorized_keys
-# You must also configure root@ivycomputer.coms ssh config to allow login with just
+# You must also configure roots ssh config to allow login with just
 # server alias.
 # This script is designed to be run as a cron job by root.
 # You must have a configuration file for each server in
