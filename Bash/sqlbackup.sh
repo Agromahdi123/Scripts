@@ -34,7 +34,7 @@ backup_database() {
   # Log the start of the backup for this database
   log "Dumping database: $db"
   # Create a backup of the database and compress it using pigz
-  mysqldump --defaults-extra-file="$MYSQL_CNF" --opt --quick --databases "$db" | pigz > "$BACKUP_DIR"/"$db".sql.gz
+  mysqldump --defaults-extra-file="$MYSQL_CNF" --opt --quick "$db" | pigz > "$BACKUP_DIR"/"$db".sql.gz
 }
 
 # Log start of script
