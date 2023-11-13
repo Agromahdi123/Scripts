@@ -4,6 +4,7 @@
 # BACKUP_DIR="/path/to/backup/directory"
 # MYSQL_CNF="/path/to/.my.cnf"
 # EMAIL_ADDRESS="email@address"
+# RETENTION_DAYS=7
 # This script assumes that you have a /root/.my.cnf file with MySQL credentials
 # This script assumes that you have pigz installed for compression
 # This script assumes that you have mailutils installed for sending email
@@ -37,6 +38,11 @@ backup_database() {
   mysqldump --defaults-extra-file="$MYSQL_CNF" --opt --quick "$db" | pigz > "$BACKUP_DIR"/"$db".sql.gz
 }
 
+prune_backups() {
+  # Prune backups older than RETENTION_DAYS
+  find "$BACKUP_DIR" -type f -name "*.sql.gz" -mtime +"$RETENTION_DAYS" -exec rm {} \;
+}
+
 # Log start of script
 log "Starting backup script"
 
@@ -54,6 +60,9 @@ done
 
 # Unlock tables
 mysql --defaults-extra-file="$MYSQL_CNF" -e "UNLOCK TABLES;"
+
+# Prune backups older than RETENTION_DAYS
+prune_backups
 
 # Log end of script
 log "Backup script completed"

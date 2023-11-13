@@ -1,1 +1,0 @@
-Set-DNSClientServerAddress –interfaceAlias "*" –ServerAddresses (“192.168.24.26”,”172.16.30.5”)
