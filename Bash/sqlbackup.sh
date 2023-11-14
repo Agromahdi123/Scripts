@@ -4,7 +4,7 @@
 # BACKUP_DIR="/path/to/backup/directory"
 # MYSQL_CNF="/path/to/.my.cnf"
 # EMAIL_ADDRESS="email@address"
-# RETENTION_DAYS=7
+# RETENTION_DAYS=45
 # This script assumes that you have a /root/.my.cnf file with MySQL credentials
 # This script assumes that you have pigz installed for compression
 # This script assumes that you have mailutils installed for sending email
@@ -38,9 +38,11 @@ backup_database() {
   mysqldump --defaults-extra-file="$MYSQL_CNF" --opt --quick "$db" | pigz > "$BACKUP_DIR"/"$db".sql.gz
 }
 
-prune_backups() {
-  # Prune backups older than RETENTION_DAYS
-  find "$BACKUP_DIR" -type f -name "*.sql.gz" -mtime +"$RETENTION_DAYS" -exec rm {} \;
+delete_old_backups() {
+  # cd into the dir above $BACKUP_DIR
+  cd "$(dirname "$BACKUP_DIR")"
+  # find all folders older than FOLDERS_TO_REMOVE days and delete them
+  find "$(basename "$BACKUP_DIR")" -type d -mtime +"$RETENTION_DAYS" -exec rm -rf {} \;
 }
 
 # Log start of script
@@ -61,8 +63,8 @@ done
 # Unlock tables
 mysql --defaults-extra-file="$MYSQL_CNF" -e "UNLOCK TABLES;"
 
-# Prune backups older than RETENTION_DAYS
-prune_backups
+# Delete old backups
+delete_old_backups
 
 # Log end of script
 log "Backup script completed"
