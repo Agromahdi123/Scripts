@@ -26,7 +26,7 @@ run_rsync() {
     local source_dir="$2"
     local log_file="$3"
     local rsync_args="$4"
-    local exclude_file="/mnt/archive/$server/rsync.exclude"
+    local exclude_file="/mnt/archive/$server/rsyncexclude"
     # Create exclude file if it doesn't exist
     if [ ! -f "$exclude_file" ]; then
         echo "# Recommended exclusions for server backup" > "$exclude_file"
@@ -42,6 +42,7 @@ run_rsync() {
         echo "/var/lock/*" >> "$exclude_file"
         echo "/var/run/*" >> "$exclude_file"
         echo "/var/tmp/*" >> "$exclude_file"
+        echo "/boot/*" >> "$exclude_file"
     fi
 
     # Check if source directory exists
@@ -97,8 +98,9 @@ for conf_file in /etc/rsync-backup/*.conf; do
     if [ ! -d "$BACKUP_DIR" ]; then
         mkdir -p "$BACKUP_DIR" || { echo "Error: Failed to create backup directory $BACKUP_DIR"; exit 1; }  # Create backup directory if it doesn't exist
     fi
-    cd "$BACKUP_DIR" || { echo "Error: Failed to change to backup directory $BACKUP_DIR"; exit 1; }  # Change to backup directory
-
+    cd "$BACKUP_DIR" || { echo "Error: Failed to change to backup directory $BACKUP_DIR"; exit 1; }  # Change to backup directory   
+    
+# Clear the existing log file
     # Run rsync and log results in the background
     run_rsync "$SERVER" "/" "root.log" "$RSYNC_ARGS" &
 
