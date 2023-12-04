@@ -94,7 +94,6 @@ $SecurityOptions = @{
     "Accounts: Guest account status" = 0
     "Network access: Do not allow anonymous enumeration of SAM accounts and shares" = 1
     "Network access: Do not allow anonymous enumeration of SAM accounts" = 1
-    "Network access: Do not allow anonymous enumeration of SAM accounts and shares" = 1
     "Network access: Let Everyone permissions apply to anonymous users" = 0
     "Network access: Named Pipes that can be accessed anonymously" = ""
     "Network access: Remotely accessible registry paths" = ""

@@ -40,7 +40,7 @@ backup_database() {
 
 delete_old_backups() {
   # cd into the dir above $BACKUP_DIR
-  cd "$(dirname "$BACKUP_DIR")"
+  cd "$(dirname "$BACKUP_DIR")" || exit
   # find all folders older than FOLDERS_TO_REMOVE days and delete them
   find "$(basename "$BACKUP_DIR")" -type d -mtime +"$RETENTION_DAYS" -exec rm -rf {} \;
 }
