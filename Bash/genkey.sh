@@ -12,7 +12,7 @@ read -p "Enter your server address: " target_server
 read -p "Enter the location to save the key: " key_location
 
 # Generate the SSH key
-ssh-keygen -t rsa -b 4096 -C "$username@$target_server" -f "$key_location"
+ssh-keygen -t rsa -b 8192 -C "$username@$target_server" -f "$key_location"
 
 # Upload the public key to the target server
 ssh-copy-id -i "$key_location.pub" "$username@$target_server"
@@ -24,7 +24,7 @@ while true; do
         [Yy]* ) 
             read -p "Enter your server address: " target_server
             read -p "Enter the location to save the key: " key_location
-            ssh-keygen -t rsa -b 4096 -C "$username@$target_server" -f "$key_location"
+            ssh-keygen -t rsa -b 8192 -C "$username@$target_server" -f "$key_location"
             ssh-copy-id -i "$key_location.pub" "$username@$target_server"
             ;;
         [Nn]* ) exit;;
